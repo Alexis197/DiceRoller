@@ -9,10 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DiceRollerTheme {
-
+                diceRoller()
             }
         }
     }
@@ -39,11 +36,23 @@ fun diceRoller(){
     CaracteristicasDiceRoller(modifier = Modifier
         .fillMaxSize()
         .wrapContentSize(Alignment.Center))
+
 }
 
 @Composable
 fun CaracteristicasDiceRoller(modifier: Modifier=Modifier){
+    var resu=(1..6).random()
+    val imageResource2 = when(resu) {
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        else -> R.drawable.dice_6
+
+    }
     var result by remember { mutableStateOf( 1) }
+
     val imageResource = when(result) {
         1 -> R.drawable.dice_1
         2 -> R.drawable.dice_2
@@ -51,14 +60,19 @@ fun CaracteristicasDiceRoller(modifier: Modifier=Modifier){
         4 -> R.drawable.dice_4
         5 -> R.drawable.dice_5
         else -> R.drawable.dice_6
+
     }
+
+
 
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Image(painter = painterResource(imageResource), contentDescription = result.toString())
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { result = (1..6).random() }) {
+        Button(onClick = { result = (1..6).random()}) {
             Text(text = stringResource(R.string.roll), fontSize = 24.sp)
         }
+        Image(painter = painterResource(imageResource2), contentDescription = resu.toString())
+        Spacer(modifier = Modifier.height(16.dp))
 
     }
 }
